@@ -5,9 +5,6 @@ edition = "2021"
 
 [workspace]
 members = [
-  "day_1"
+  "day_1",
+  "utils"
 ]
-
-[dependencies]
-anyhow = "1.0"
-day_1 = { path = "day_1" }

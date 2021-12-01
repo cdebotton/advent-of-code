@@ -1,4 +1,18 @@
-pub fn count_measurement_increases(input: Vec<u16>) -> u16 {
+fn main() {
+    let input_data = utils::read_to_vec("./day_1/assets/day_1.txt").unwrap();
+
+    println!(
+        r#"
+            Results:
+            Day 1 (Part 1): {part_1}
+            Day 1 (Part 2): {part_2}
+        "#,
+        part_1 = count_measurement_increases(input_data.clone()),
+        part_2 = count_three_measurement_increases(input_data.clone())
+    );
+}
+
+fn count_measurement_increases(input: Vec<u16>) -> u16 {
     let mut cursor: (u16, Option<u16>) = (0, None);
 
     for value in input {
@@ -16,7 +30,7 @@ pub fn count_measurement_increases(input: Vec<u16>) -> u16 {
     cursor.0
 }
 
-pub fn count_three_measurement_increases(input: Vec<u16>) -> u16 {
+fn count_three_measurement_increases(input: Vec<u16>) -> u16 {
     let mut sums: Vec<u16> = vec![];
 
     for i in 2..input.len() {
