@@ -9,10 +9,10 @@ fn main() -> Result<(), Error> {
 
     println!(
         r#"
-                Results:
-                Day 2 (Part 1): {part_1}
-                Day 2 (Part 2): {part_2}
-            "#,
+            Results:
+            Day 2 (Part 1): {part_1}
+            Day 2 (Part 2): {part_2}
+        "#,
         part_1 = calculate_travel(lines.clone()),
         part_2 = calculate_aim(lines.clone())
     );
