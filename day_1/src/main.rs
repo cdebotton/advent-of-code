@@ -1,5 +1,5 @@
 fn main() {
-    let input_data = utils::read_to_vec("./day_1/assets/day_1.txt").unwrap();
+    let input_data = utils::read_to_vec("./assets/day_1.txt").unwrap();
 
     println!(
         r#"
