@@ -1,3 +1,5 @@
+pub mod challenge;
+
 use anyhow::Result;
 use std::{fs, str::FromStr};
 
