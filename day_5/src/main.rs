@@ -5,20 +5,7 @@ fn main() {
     println!("{}", solve(&input));
 }
 
-const TEST_INPUT: &'static str = r#"
-    0,9 -> 5,9
-    8,0 -> 0,8
-    9,4 -> 3,4
-    2,2 -> 2,1
-    7,0 -> 7,4
-    6,4 -> 2,0
-    0,9 -> 2,9
-    3,4 -> 1,4
-    0,0 -> 8,8
-    5,5 -> 8,2
-"#;
-
-fn parse_lines(input: &str) -> Vec<Option<Vec<(usize, usize)>>> {
+fn parse_lines(input: &str) -> Vec<Vec<(usize, usize)>> {
     let to_usize = |input: &str| input.parse::<usize>().unwrap();
     let split_point = |point: &str| {
         let mut split = point.split(',');
@@ -53,11 +40,8 @@ fn parse_lines(input: &str) -> Vec<Option<Vec<(usize, usize)>>> {
                 ys = ys.repeat(xs.len());
             }
 
-            let line: Vec<(usize, usize)> = xs.into_iter().zip(ys.into_iter()).collect();
-
-            Some(line)
+            xs.into_iter().zip(ys.into_iter()).collect()
         })
-        .skip_while(|x| *x == None)
         .collect()
 }
 
@@ -65,19 +49,16 @@ fn solve(input: &str) -> usize {
     let lines = parse_lines(input);
     let mut map: HashMap<(usize, usize), usize> = HashMap::new();
 
-    for maybe_line in lines {
-        if let Some(line) = maybe_line {
-            for point in line {
-                if !map.contains_key(&point) {
-                    map.insert(point, 1);
-                } else {
-                    let value = map.get(&point).unwrap();
-                    map.insert(point, value + 1);
-                }
-            }
+    lines.iter().flatten().for_each(|point| {
+        if !map.contains_key(&point) {
+            map.insert(*point, 1);
+        } else {
+            let value = *map.get(&point).unwrap();
+            map.insert(*point, value + 1);
         }
-    }
-    let has_two = map.iter().enumerate().fold(0usize, |acc, (_, (_, total))| {
+    });
+
+    let has_two = map.iter().fold(0usize, |acc, (_, total)| {
         if *total >= 2 {
             return acc + 1;
         }
@@ -86,6 +67,20 @@ fn solve(input: &str) -> usize {
 
     has_two
 }
+
+#[cfg(test)]
+const TEST_INPUT: &'static str = r#"
+    0,9 -> 5,9
+    8,0 -> 0,8
+    9,4 -> 3,4
+    2,2 -> 2,1
+    7,0 -> 7,4
+    6,4 -> 2,0
+    0,9 -> 2,9
+    3,4 -> 1,4
+    0,0 -> 8,8
+    5,5 -> 8,2
+"#;
 
 #[cfg(test)]
 mod tests {
