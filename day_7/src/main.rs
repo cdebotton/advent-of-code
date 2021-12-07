@@ -30,31 +30,12 @@ fn solve_one(input: &str) -> i32 {
 }
 
 fn solve_two(input: &str) -> i32 {
-    let calc_fuel = |distance: i32| {
-        let mut cost = 0;
-        for i in 0..=distance {
-            cost += i;
-        }
-
-        cost
-    };
-
+    let calc_fuel = |n: i32| n * (n + 1) / 2;
+    let total = |end: i32| move |start: &i32| return calc_fuel((start - end).abs());
     let numbers = parse_input(input);
     let avg = numbers.iter().sum::<i32>() as f32 / numbers.len() as f32;
-    let ceil = numbers
-        .iter()
-        .map(|x| {
-            let d = (*x - avg.ceil() as i32).abs();
-            calc_fuel(d)
-        })
-        .sum::<i32>();
-    let floor = numbers
-        .iter()
-        .map(|x| {
-            let d = (*x - avg.floor() as i32).abs();
-            calc_fuel(d)
-        })
-        .sum::<i32>();
+    let ceil = numbers.iter().map(total(avg.ceil() as i32)).sum::<i32>();
+    let floor = numbers.iter().map(total(avg.floor() as i32)).sum::<i32>();
 
     floor.min(ceil)
 }
